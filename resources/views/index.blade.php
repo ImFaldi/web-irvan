@@ -55,10 +55,22 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
+                                        @if (session('success'))
+                                            <div class="alert alert-success mt-3" role="alert">
+                                                {{ session('success') }}
+                                            </div>
+                                        @elseif (session('error'))
+                                            <div class="alert alert-danger mt-3" role="alert">
+                                                {{ session('error') }}
+                                            </div>
+                                        @endif
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <button type="button" class="small" data-toggle="modal"
+                                            data-target="#exampleModalCenter" style="border: none; background: none;">
+                                            <p style="color: #4e73df;">Create an Account!</p>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +81,48 @@
             </div>
 
         </div>
-
+        
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="user" method="POST" action="{{ route('register') }}">
+                            @csrf
+                            <div class="form-group">
+                                <input type="varchar" class="form-control form-control-user" id="exampleInputEmail"
+                                    aria-describedby="emailHelp" placeholder="Enter Name..." name="name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                                    placeholder="Enter Password..." name="password">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="role" style="border-radius: 40px; height: 50px;">
+                                    <option value="admin">Admin</option>
+                                    <option value="petugas">Petugas</option>
+                                    <option value="user">User</option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->

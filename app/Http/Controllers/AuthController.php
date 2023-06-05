@@ -28,9 +28,9 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            return redirect()->back()->with('success', 'User created successfully');
+            return redirect('/')->with('success', 'Register successfully');
         } else {
-            return redirect()->back()->with('error', 'User creation failed');
+            return redirect('/')->with('error', 'Register failed');
         }
 
     }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
     Route::get('/petugas', [DashboardController::class, 'petugas'])->name('dashboard.petugas');
     Route::get('/user', [DashboardController::class, 'user'])->name('dashboard.user');
+    Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
+    Route::get('/print/{id}', [DashboardController::class, 'printPdf'])->name('dashboard.print');
 });
