@@ -29,5 +29,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/petugas', [DashboardController::class, 'petugas'])->name('dashboard.petugas');
     Route::get('/user', [DashboardController::class, 'user'])->name('dashboard.user');
     Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
-    Route::get('/print/{id}', [DashboardController::class, 'printPdf'])->name('dashboard.print');
+    Route::get('/print/{id}', [ReportController::class, 'printPdf'])->name('dashboard.print');
+    Route::get('/approved/{id}', [ReportController::class, 'Approved'])->name('admin.approve');
 });
