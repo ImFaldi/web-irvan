@@ -1,5 +1,20 @@
 <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+
+<div class="float-left">
+    <img src="img/logo.png" alt="" style="width: 100px; height: 100px; margin-left: 40%; margin-top: 5%;">
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="float-right">
+            <img src="img/logo.png" alt="" style="width: 100px; height: 100px; margin-left: 40%; margin-top: 5%;">
+        </div>
+    </div>
+</div>
+
+<hr class="sidebar-divider my-0">
+
 <div class="container">
     <div class="row">
         <div class="float-right">
@@ -76,10 +91,10 @@
                 <p class="text-center text-gray-900">Hormat Saya,<br>
                     @foreach ($users as $user)
                         @if ($user->id == $report->user_id)
-                        <br>
-                        <br>
-                        <br>
-                        <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             {{ $user->name }}
                         @endif
                     @endforeach
