@@ -173,7 +173,8 @@
                                                     </td>
                                                     <td>{{ $report->created_at }}</td>
                                                     <td>
-                                                        <a href="" class="btn btn-info btn-sm">Print</a>
+                                                        <a href="{{ route('dashboard.print', $report->id) }}"
+                                                            class="btn btn-info btn-sm">Print Report</a>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -231,7 +232,7 @@
                 <div class="table-responsive">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
-                            <div class="col-sm-4 col-md-6">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="dataTable_length"><label>Show <select
                                             name="dataTable_length" aria-controls="dataTable"
                                             class="custom-select custom-select-sm form-control form-control-sm">
@@ -239,12 +240,15 @@
                                             <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
-                                        </select> </div>
+                                        </select>
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                            class="form-control form-control-sm" placeholder=""
-                                            aria-controls="dataTable"></label></div>
+                            <div class="col-sm-12 col-md-6 d-flex justify-content-end">
+                                <div id="dataTable_filter" class="dataTables_filter">
+                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                        Print Absen
+                                </div>
                             </div>
                         </div>
                         <div class="row">
