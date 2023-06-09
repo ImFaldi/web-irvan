@@ -37,7 +37,9 @@ class DashboardController extends Controller
     public function adminTable()
     {
         $users = User::all();
-        return view('tables.admin', compact('users'));
+        $reports = Report::all();
+        $absen = Absen::all();
+        return view('tables.admin', compact('users', 'reports', 'absen'));
     }
 
     public function petugasTable()
