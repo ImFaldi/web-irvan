@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Absen;
 
 class DashboardController extends Controller
 {
@@ -19,7 +20,8 @@ class DashboardController extends Controller
         $date = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime("-1 days"));
         $reports = Report::all();
-        return view('dashboard.admin' , compact('totalUser' , 'totalReport' , 'date', 'users', 'yesterday', 'reports'));
+        $absen = Absen::all();
+        return view('dashboard.admin' , compact('totalUser' , 'totalReport' , 'date', 'users', 'yesterday', 'reports', 'absen'));
     }
 
     public function petugas()

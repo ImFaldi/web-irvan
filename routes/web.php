@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AbsenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/print/{id}', [ReportController::class, 'printPdf'])->name('dashboard.print');
     Route::get('/approved/{id}', [ReportController::class, 'Approved'])->name('admin.approve');
     Route::get('/rejected/{id}', [ReportController::class, 'Rejected'])->name('admin.reject');
+    Route::post('/absent/hadir/{id}', [AbsenController::class, 'AbsentHadir'])->name('absen.hadir');
+    Route::post('/absent/izin/{id}', [AbsenController::class, 'AbsentIzin'])->name('absen.izin');
+    Route::post('/absent/sakit/{id}', [AbsenController::class, 'AbsentSakit'])->name('absen.sakit');
 });

@@ -79,7 +79,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -98,8 +98,8 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small"
+                                placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -137,10 +137,61 @@
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item">
-                           <a class="nav-link" href="{{ route('logout') }}">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
+                            {{-- jika user belum absen hari ini maka tampilkan button absen --}}
+                            {{-- tpanggil nama user --}}
+                            @php
+                                $user = auth()->user()->id;
+                                $absen = App\Models\Absen::where('user_id', $user)
+                                    ->whereDate('created_at', date('Y-m-d'))
+                                    ->first();
+                            @endphp
+                            @if (!$absen)
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal-absen-{{ auth()->user()->id }}">
+                                        Absen
+                                    </button>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal-absen-{{ auth()->user()->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-absen-{{ auth()->user()->id }}Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="exampleModalLongTitle">Absen Hari Ini</h5>
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-1 text-dark text-sm">Absensi Kehadiran untuk pengurus dan Anggota Muda.
+                                                    <br>
+                                                    <br>
+                                                    Silahkan isikan Presensi Kehadiran Anda...</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="{{ route('absen.hadir', auth()->user()->id) }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                                    <button type="submit" class="btn btn-primary">Absen</button>
+                                                </form>
+                                                <form action="{{ route('absen.sakit', auth()->user()->id) }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                                    <button type="submit" class="btn btn-danger">Sakit</button>
+                                                </form>
+                                                <form action="{{ route('absen.izin', auth()->user()->id) }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                                    <button type="submit" class="btn btn-warning">Ijin</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @endif
                         </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -149,9 +200,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
