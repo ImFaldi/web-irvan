@@ -33,4 +33,16 @@ class DashboardController extends Controller
     {
         return view('dashboard.user');
     }
+
+    public function adminTable()
+    {
+        $users = User::all();
+        return view('tables.admin', compact('users'));
+    }
+
+    public function petugasTable()
+    {
+        $users = User::all();
+        return view('tables.petugas', compact('users'));
+    }
 }

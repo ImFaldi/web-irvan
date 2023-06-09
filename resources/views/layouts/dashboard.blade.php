@@ -43,9 +43,15 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @yield('dashboard')">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                @if (auth()->user()->role == 'admin')
+                    <a class="nav-link" href="{{ route('dashboard.admin') }}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                @elseif(auth()->user()->role == 'petugas')
+                    <a class="nav-link" href="{{ route('dashboard.petugas') }}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                @endif
             </li>
 
             <!-- Divider -->
@@ -58,9 +64,15 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('tables')">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                @if (auth()->user()->role == 'admin')
+                    <a class="nav-link" href="{{ route('table.admin') }}">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Table</span></a>
+                @elseif(auth()->user()->role == 'petugas')
+                    <a class="nav-link" href="{{ route('table.petugas') }}">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Table</span></a>
+                @endif
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
