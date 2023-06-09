@@ -38,8 +38,8 @@ class DashboardController extends Controller
     {
         $users = User::all();
         $reports = Report::all();
-        $absen = Absen::all();
-        return view('tables.admin', compact('users', 'reports', 'absen'));
+        $absens = Absen::all();
+        return view('tables.admin', compact('users', 'reports', 'absens'));
     }
 
     public function petugasTable()

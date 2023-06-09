@@ -23,7 +23,7 @@
                                             <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
-                                        </select> entries</label></div>
+                                        </select> </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
@@ -124,7 +124,7 @@
                                             <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
-                                        </select> entries</label></div>
+                                        </select> </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
@@ -225,13 +225,13 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">User Table</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Absen Table</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-4 col-md-6">
                                 <div class="dataTables_length" id="dataTable_length"><label>Show <select
                                             name="dataTable_length" aria-controls="dataTable"
                                             class="custom-select custom-select-sm form-control form-control-sm">
@@ -239,7 +239,7 @@
                                             <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
-                                        </select> entries</label></div>
+                                        </select> </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
@@ -261,26 +261,32 @@
                                                 Name</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
-                                                style="width: 84px;">Email</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Office: activate to sort column ascending"
-                                                style="width: 40px;">Role</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Age: activate to sort column ascending"
-                                                style="width: 20px;">Action</th>
+                                                style="width: 84px;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users as $user)
-                                            <tr class="odd">
-                                                <td class="sorting_1">{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->role }}</td>
-                                                <td>
-                                                    <a href="" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                                </td>
-                                            </tr>
+                                        @foreach ($absens as $absen)
+                                            @if ($absen->created_at->format('Y-m-d') == date('Y-m-d'))
+                                                <tr class="odd">
+                                                    @foreach ($users as $user)
+                                                        @if ($absen->user_id == $user->id)
+                                                            <td class="sorting_1">{{ $user->name }}</td>
+                                                        @endif
+                                                    @endforeach
+                                                    <td>
+                                                        @if ($absen->status == 'hadir')
+                                                            <span class="badge badge-success">{{ $absen->status }}</span>
+                                                        @elseif ($absen->status == 'izin')
+                                                            <span class="badge badge-warning">{{ $absen->status }}</span>
+                                                        @elseif ($absen->status == 'sakit')
+                                                            <span class="badge badge-danger">{{ $absen->status }}</span>
+                                                        @elseif ($absen->status == 'alpa')
+                                                            <span
+                                                                class="badge badge-secondary">{{ $absen->status }}</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
