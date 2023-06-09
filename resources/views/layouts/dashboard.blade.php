@@ -145,52 +145,67 @@
                                     ->whereDate('created_at', date('Y-m-d'))
                                     ->first();
                             @endphp
-                            @if (!$absen)
-                                <div class="mt-3">
-                                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal-absen-{{ auth()->user()->id }}">
-                                        Absen
-                                    </button>
-                                </div>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal-absen-{{ auth()->user()->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-absen-{{ auth()->user()->id }}Label" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLongTitle">Absen Hari Ini</h5>
-                                                </h6>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="mb-1 text-dark text-sm">Absensi Kehadiran untuk pengurus dan Anggota Muda.
-                                                    <br>
-                                                    <br>
-                                                    Silahkan isikan Presensi Kehadiran Anda...</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <form action="{{ route('absen.hadir', auth()->user()->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                                    <button type="submit" class="btn btn-primary">Absen</button>
-                                                </form>
-                                                <form action="{{ route('absen.sakit', auth()->user()->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                                    <button type="submit" class="btn btn-danger">Sakit</button>
-                                                </form>
-                                                <form action="{{ route('absen.izin', auth()->user()->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                                    <button type="submit" class="btn btn-warning">Ijin</button>
-                                                </form>
+                            {{--  jika role admin maka tidak tampilkan button absen --}}
+                            @if (auth()->user()->role == 'petugas')
+                                @if (!$absen)
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary" type="button" data-toggle="modal"
+                                            data-target="#modal-absen-{{ auth()->user()->id }}">
+                                            Absen
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modal-absen-{{ auth()->user()->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="modal-absen-{{ auth()->user()->id }}Label"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h6 class="modal-title" id="exampleModalLongTitle">Absen Hari Ini
+                                                        </h5>
+                                                    </h6>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="mb-1 text-dark text-sm">Absensi Kehadiran untuk pengurus
+                                                        dan Anggota Muda.
+                                                        <br>
+                                                        <br>
+                                                        Silahkan isikan Presensi Kehadiran Anda...
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form action="{{ route('absen.hadir', auth()->user()->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="user_id"
+                                                            value="{{ auth()->user()->id }}">
+                                                        <button type="submit" class="btn btn-success">Hadir</button>
+                                                    </form>
+                                                    <form action="{{ route('absen.sakit', auth()->user()->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="user_id"
+                                                            value="{{ auth()->user()->id }}">
+                                                        <button type="submit" class="btn btn-danger">Sakit</button>
+                                                    </form>
+                                                    <form action="{{ route('absen.izin', auth()->user()->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="user_id"
+                                                            value="{{ auth()->user()->id }}">
+                                                        <button type="submit" class="btn btn-warning">Ijin</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                @endif
                             @endif
                         </li>
 
