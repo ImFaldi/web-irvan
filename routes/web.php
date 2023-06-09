@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
+Route::post('/auth', [AuthController::class, 'auth'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -31,4 +31,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
     Route::get('/print/{id}', [ReportController::class, 'printPdf'])->name('dashboard.print');
     Route::get('/approved/{id}', [ReportController::class, 'Approved'])->name('admin.approve');
+    Route::get('/rejected/{id}', [ReportController::class, 'Rejected'])->name('admin.reject');
 });

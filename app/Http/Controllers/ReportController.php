@@ -16,7 +16,7 @@ class ReportController extends Controller
         $report = Report::find($id);
         $report->status = 'approved';
         $report->save();
-        return redirect()->back();
+        return redirect()->back()->with('approve', 'Report approved');
     }
 
     public function Rejected($id)
@@ -24,7 +24,7 @@ class ReportController extends Controller
         $report = Report::find($id);
         $report->status = 'rejected';
         $report->save();
-        return redirect()->back();
+        return redirect()->back()->with('reject', 'Report rejected');
     }
 
     public function Pending($id)

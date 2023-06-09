@@ -106,81 +106,113 @@
                         </div>
                     </div>
                     <div class="card-body p-3 pb-0">
-                        <ul class="list-group">
-                            @foreach ($reports as $report)
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">Title : {{ $report->title }}
-                                        </h6>
-                                        @foreach ($users as $user)
-                                            @if ($user->id == $report->user_id)
-                                                <span class="text-xs">Name Reporter : {{ $user->name }}</span>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
+                        <div class="col-sm-12">
+                            @if (session('approve'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Success</strong> {{ session('approve') }}.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            @if (session('reject'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Success</strong> {{ session('reject') }}.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times; </span>
+                                    </button>
+                                </div>
+                            @endif
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0"
+                                role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1" aria-sort="ascending"
+                                            aria-label="Name: activate to sort column descending" style="width: 68px;">Title
+                                            Report
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-label="Position: activate to sort column ascending"
+                                            style="width: 111px;">Status
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-label="Office: activate to sort column ascending"
+                                            style="width: 51px;">Reported At
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-label="Age: activate to sort column ascending"
+                                            style="width: 24px;">Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($reports as $report)
                                         @if ($report->status == 'pending')
-                                            <span
-                                                class="badge badge-sm bg-gradient-warning"style="color: white; font-size: 12px;">{{ $report->status }}</span>
-                                        @elseif ($report->status == 'approved')
-                                            <span
-                                                class="badge badge-sm bg-gradient-success"style="color: white; font-size: 12px;">{{ $report->status }}</span>
-                                        @elseif ($report->status == 'rejected')
-                                            <span
-                                                class="badge badge-sm bg-gradient-danger"style="color: white; font-size: 12px;">{{ $report->status }}</span>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{ $report->title }}</td>
+                                                <td><span
+                                                        class="badge badge-{{ $report->status == 'pending' ? 'warning' : ($report->status == 'approved' ? 'success' : 'danger') }}">{{ $report->status }}</span>
+                                                <td>{{ $report->created_at->format('d M Y') }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#detail-report-{{ $report->id }}">
+                                                        Detail
+                                                </td>
+                                            </tr>
                                         @endif
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#detail-report-{{ $report->id }}">
-                                            Detail
-                                        </button>
-                                    </div>
-                                </li>
 
-                                <div class="modal fade" id="detail-report-{{ $report->id }}" tabindex="-1"
-                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Detail Report</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h6 class="mb-1 text-dark font-weight-bold text-sm">Title :
-                                                    <span class="text-dark font-weight-normal">{{ $report->title }}</span>
-                                                @foreach ($users as $user)
-                                                    @if ($user->id == $report->user_id)
-                                                        <h6 class="mb-1 text-dark font-weight-bold text-sm mt-4">Name
-                                                            Reporter : <span
-                                                                class="text-dark font-weight-normal">{{ $user->name }}</span>
-                                                    @endif
-                                                @endforeach
-                                                <h6 class="mb-1 text-dark font-weight-bold text-sm mt-4">Description : <br>
-                                                    <span class="text-dark font-weight-normal">{{ $report->description }}</span>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <a href="{{ route('admin.approve', $report->id) }}"
-                                                    class="btn btn-success">Approve</a>
+                                        {{-- modal detail report --}}
+                                        <div class="modal fade" id="detail-report-{{ $report->id }}" tabindex="-1"
+                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Detail Report
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">Title :
+                                                            <span
+                                                                class="text-dark font-weight-normal">{{ $report->title }}</span>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->id == $report->user_id)
+                                                                    <h6
+                                                                        class="mb-1 text-dark font-weight-bold text-sm mt-4">
+                                                                        Name
+                                                                        Reporter : <span
+                                                                            class="text-dark font-weight-normal">{{ $user->name }}</span>
+                                                                @endif
+                                                            @endforeach
+                                                            <h6 class="mb-1 text-dark font-weight-bold text-sm mt-4">
+                                                                Description : <br>
+                                                                <span
+                                                                    class="text-dark font-weight-normal">{{ $report->description }}</span>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="{{ route('admin.reject', $report->id) }}"
+                                                            class="btn btn-danger">Reject</a>
+                                                        <a href="{{ route('admin.approve', $report->id) }}"
+                                                            class="btn btn-success">Approve</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </ul>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="add-userTitle" aria-hidden="true">
+    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="add-userTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">

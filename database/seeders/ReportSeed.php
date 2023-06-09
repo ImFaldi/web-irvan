@@ -16,8 +16,8 @@ class ReportSeed extends Seeder
         //
 
         Report::create([
-            'title' => 'Laravel',
-            'description' => 'Laravel is the best framework',
+            'title' => 'Keluhan Mahasiswa Mengenai Metode Pembelajaran',
+            'description' => 'Mahasiswa mengeluhkan metode pembelajaran yang diterapkan oleh dosen',
             'user_id' => 1,
         ]);
 
